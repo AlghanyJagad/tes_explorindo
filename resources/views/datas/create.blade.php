@@ -22,35 +22,36 @@
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="jenis_ikan">Jenis Ikan:</label>
-                        <input type="text" class="form-control" id="jenis_ikan" placeholder="Jenis Ikan" name="jenis_ikan">
+                        <input type="text" class="form-control" id="jenis_ikan" placeholder="Jenis Ikan" name="jenis_ikan" required>
                         @error('jenis_ikan') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="harga">Harga Beli:</label>
-                        <input type="text" class="form-control" id="harga" placeholder="Harga" name="harga_beli" onkeyup="formatter(this.value)">
+                        <input type="text" class="form-control" id="harga_beli" placeholder="Harga" name="harga_beli"
+                        required>
                         @error('harga') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="penjual">Penjual:</label>
-                        <input type="text" class="form-control" id="penjual" placeholder="penjual" name="penjual">
+                        <input type="text" class="form-control" id="penjual" placeholder="penjual" name="penjual" required>
                         @error('penjual') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="tanggal_beli">Tanggal Beli:</label>
-                        <input type="date" class="form-control flatpickr-basic flatpickr-input" id="tanggal_beli" name="tanggal_beli">
+                        <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli" required>
                         @error('penjual') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="image">Foto:</label>
-                        <input type="file" class="form-control" id="image" name="image">
+                        <input type="file" class="form-control" id="image" name="image" required>
                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -64,27 +65,3 @@
 </div>
 </div>
 @endsection
-
-@push('script')
-<script>
-  var rupiah = document.getElementById("harga");
-        rupiah.addEventListener("keyup", function(e) {
-            rupiah.value = formatRupiah(this.value, "Rp. ");
-        });
-
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, "").toString(),
-                split = number_string.split(","),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-            if (ribuan) {
-                separator = sisa ? "." : "";
-                rupiah += separator + ribuan.join(".");
-            }
-            rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-            return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-        }
-
-</script>
-@endpush

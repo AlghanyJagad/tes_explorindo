@@ -25,19 +25,48 @@
         <tr>
             <td>{{ ++$i }}</td>
             <td>{{ $data->jenis_ikan }}</td>
-            <td>{{ $data->harga_beli }}</td>
+            <td>{{ "Rp. " . number_format($data->harga_beli, 0, ".", "."); }}</td>
             <td>{{ $data->penjual }}</td>
             <td>{{ $data->tanggal_beli }}</td>
             <td><img src="/image/{{ $data->image }}" width="100px"></td>
             <td>
-                <form action="{{ route('datas.destroy',$data->id) }}" method="POST">
-
-                    <a class="btn btn-primary" href="{{ route('datas.edit',$data->id) }}">Edit</a>
+                <a href="{{ route('datas.edit', $data->id) }}" 
+                    class="btn btn-primary btn-block mb-1">Edit</a>
+                <button type="submit" onclick="deleteRow( {{ $data->id }} )"
+                    class="btn btn-danger btn-block">Delete</button>
+                <form action="{{ route('datas.destroy', $data->id) }}" method="post"
+                    id="DeleteData{{ $data->id }}">
                     @csrf
                     @method('DELETE')
-        
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
+                <script>
+                    function deleteRow(id) {
+                        Swal.fire({
+                            title: 'Apakah Anda Yakin?',
+                            text: "Anda tidak akan bisa mengembalikan data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, hapus ini!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: "Sedang menghapus Data",
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    timerProgressBar: true,
+                                    onOpen: () => {
+                                        document.getElementById(
+                                            `DeleteData${id}`).submit();
+                                        Swal.showLoading();
+                                    }
+                                });
+                            }
+                        })
+                    }
+
+                </script>
             </td>
         </tr>
         @endforeach

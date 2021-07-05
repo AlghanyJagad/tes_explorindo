@@ -33,7 +33,7 @@
             <i data-feather="info" class="font-medium-5"></i>
           </div>
         </div>
-        <h2 class="font-weight-bolder mt-1">0</h2>
+        <h2 class="font-weight-bolder mt-1">{{ $jumlah }}</h2>
         <h2 class="card-text">Jumlah Ikan</h2>
       </div>
       <div id="gained-chart"></div>

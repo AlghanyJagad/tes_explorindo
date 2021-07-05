@@ -36,3 +36,5 @@
     <!-- END: Custom CSS-->
 
     <link rel="icon" href="{{ asset ('favicon.co') }}">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

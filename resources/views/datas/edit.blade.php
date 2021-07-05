@@ -30,7 +30,8 @@
                 <div class="col-xl-4 col-md-6 col-12 mb-1">
                     <div class="form-group">
                         <label for="harga_beli">Harga Beli:</label>
-                        <input type="text" class="form-control" id="harga_beli" placeholder="Harga" name="harga_beli" value="{{ $data->harga_beli}}">
+                        <input type="text" class="form-control" id="harga_beli" placeholder="Harga" name="harga_beli"
+                        value="{{ 'Rp. ' . number_format($data->harga_beli, 0, ',', '.') }}">
                         @error('harga_beli') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>

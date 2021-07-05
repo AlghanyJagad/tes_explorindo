@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Data;
 use Illuminate\Http\Request;
+use File;
 
 class DataController extends Controller
 {
@@ -46,6 +47,8 @@ class DataController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $harga = preg_replace('/[Rp. ]/', '', request('harga_beli'));
+
         $input = $request->all();
 
         if ($image = $request->file('image')) {
@@ -55,10 +58,16 @@ class DataController extends Controller
             $input['image'] = "$profileImage";
         }
 
-        Data::create($input);
+        $data = Data::create([
+            'jenis_ikan' => request('jenis_ikan'),
+            'harga_beli' => $harga,
+            'penjual' => request('penjual'),
+            'tanggal_beli' => request('tanggal_beli'),
+            'image' => $profileImage
+        ]);
 
         return redirect()->route('datas')
-            ->with('success', 'Data created successfully.');
+            ->with('success', 'Data berhasil tersimpan');
     }
 
     /**
@@ -107,13 +116,22 @@ class DataController extends Controller
             $image->move($destinationPath, $profileImage);
             $input['image'] = "$profileImage";
         } else {
+            $profileImage = $data->image;
             unset($input['image']);
         }
 
-        $data->update($input);
+        $harga = preg_replace('/[Rp. ]/', '', request('harga_beli'));
+
+        $data->update([
+            'jenis_ikan' => request('jenis_ikan'),
+            'harga_beli' => $harga,
+            'penjual' => request('penjual'),
+            'tanggal_beli' => request('tanggal_beli'),
+            'image' => $profileImage
+        ]);
 
         return redirect()->route('datas')
-            ->with('success', 'Data updated successfully');
+            ->with('success', 'Data berhasil tersimpan');
     }
 
     /**
@@ -124,6 +142,9 @@ class DataController extends Controller
      */
     public function destroy(Data $data)
     {
+        // hapus file
+        File::delete('image/' . $data->image);
+
         $data->delete();
 
         return redirect()->route('datas')
